@@ -108,7 +108,6 @@ export function EuropeMap() {
     })
     return (
         <div>
-            {useSelector(selectRegion)}
             <svg
                 xmlns="http://www.w3.org/2000/svg" id="svg51"
                 viewBox="0 0 1000 684" version="1.2" baseProfile="tiny" className={styles.map}>

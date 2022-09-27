@@ -6,10 +6,8 @@ import {InfoPanel} from "./features/info_panel/InfoPanel";
 function App() {
     return (
         <div className="App">
-            <header className="App-header">
                 <EuropeMap/>
                 <InfoPanel/>
-            </header>
         </div>
     );
 }
