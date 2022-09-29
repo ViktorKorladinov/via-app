@@ -3,13 +3,12 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 export const fetchRegionInfo = createAsyncThunk('counter/fetchCount', async (countryName) => {
     return fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
         .then(response => response.json()).then(json => {
-            console.log(json)
-            return "A"
+            return json
         })
 });
 
 const initialState = {
-    info: "Default Info"
+    info: []
 }
 
 export const infoPanelSlice = createSlice({
@@ -20,10 +19,12 @@ export const infoPanelSlice = createSlice({
     }, extraReducers: (builder) => {
         builder
             .addCase(fetchRegionInfo.pending, (state) => {
-                state.info = 'loading';
+                state.info = [`Fetching data...`];
             })
             .addCase(fetchRegionInfo.fulfilled, (state, action) => {
-                console.log(action.payload);
+                let country = action.payload[0]
+                let {population, subregion, flag} = country
+                state.info = [population, subregion, flag];
             });
     },
 });
