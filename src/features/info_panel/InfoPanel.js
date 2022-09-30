@@ -10,7 +10,7 @@ export function InfoPanel() {
         let element
         let flag = ""
         let region = regions[currentRegion]
-        let {info} = region
+        let {name, info} = region
         if (currentRegion === "default") {
             element = <p>Select a country to view its information</p>
         } else if (currentRegion === "loading") {
@@ -28,7 +28,7 @@ export function InfoPanel() {
         }
         return (
             <>
-                <h1>{currentRegion} {flag}</h1>
+                <h1>{name} {flag}</h1>
                 {element}
             </>
         )

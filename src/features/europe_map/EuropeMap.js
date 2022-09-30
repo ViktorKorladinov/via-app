@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./EuropeMap.module.css"
 import {useSelector, useDispatch} from 'react-redux';
 import {reset, changeRegion, selectRegion} from './europeMapSlice';
-import {fetchRegionInfo} from "../info_panel/infoPanelSlice";
+import {fetchRegionInfo, selectAllRegionsLength, setAllRegions} from "../info_panel/infoPanelSlice";
 
 export function EuropeMap() {
     let svgImage = (<div>
@@ -97,9 +97,11 @@ export function EuropeMap() {
     </div>);
     const dispatch = useDispatch();
     const currName = useSelector(selectRegion)
-    let countries = []
+    let regionsLoaded = useSelector(selectAllRegionsLength) !== 0
+    let regions = []
     let clickableCountries = React.Children.map(svgImage.props.children, child => {
-        countries.push(child.props.name)
+        if(!regionsLoaded)
+            regions.push(child.props.name)
         return React.cloneElement(child, {
             onClick: () => {
                 if (currName === child.props.name) {
@@ -111,7 +113,8 @@ export function EuropeMap() {
             }, className: styles.country
         });
     })
-    console.log(countries)
+    if(!regionsLoaded)
+        dispatch(setAllRegions(regions));
     return (<div>
             <svg
                 xmlns="http://www.w3.org/2000/svg" id="svg51"
