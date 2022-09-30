@@ -8,29 +8,44 @@ export const fetchRegionInfo = createAsyncThunk('counter/fetchCount', async (cou
 });
 
 const initialState = {
-    info: []
+    regions: {
+        default: {
+            name: "Europe", flag: "", info: []
+        }, loading: {
+            name: "Loading Region Info", flag: "", info: [],
+        },
+    }, allRegions: ["default", "loading"], current: "default"
 }
 
 export const infoPanelSlice = createSlice({
     name: 'infoPanel', initialState, reducers: {
         reset: (state) => {
-            state.info = initialState.info;
+            state.current = "default"
         },
     }, extraReducers: (builder) => {
         builder
             .addCase(fetchRegionInfo.pending, (state) => {
-                state.info = [`Fetching data...`];
+                state.current = "loading";
             })
             .addCase(fetchRegionInfo.fulfilled, (state, action) => {
                 let country = action.payload[0]
+                let countryName = country.name["official"]
                 let {population, subregion, flag} = country
-                state.info = [population, subregion, flag];
+                state.current = countryName
+                let allRegs = [...state.allRegions, countryName]
+                state.regions = {
+                    ...state.regions, [countryName]: {
+                        name: country, flag, info: [population, subregion]
+                    },
+                    allRegions: allRegs
+                }
             });
     },
 });
 
 export const {reset} = infoPanelSlice.actions;
 
-export const selectInfo = (state) => state.infoPanel.info;
+export const selectInfo = (state) => state.infoPanel.regions;
+export const selectCurrentRegion = (state) => state.infoPanel.current;
 
 export default infoPanelSlice.reducer;
