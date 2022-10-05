@@ -4,6 +4,9 @@ const initialState = {
     selectedRegion: "Europe",
 };
 
+
+
+
 export const europeMapSlice = createSlice({
     name: 'europeMap',
     initialState,

@@ -39,10 +39,14 @@ export const infoPanelSlice = createSlice({
                 if (action.payload.new) {
                     let country = action.payload.json[0]
                     let countryNameOff = country.name["official"]
-                    let {population, subregion, flag} = country
+                    let {capital, capitalInfo, population, subregion, flag} = country
+                    capital = capital[0]
+                    let {latlng} = capitalInfo
                     state.regions = {
                         ...state.regions, [countryName]: {
-                            name: countryNameOff, flag, info: [population, subregion]
+                            name: countryNameOff,
+                            flag,
+                            info: [population, subregion, {capital, lat: latlng[0], lng: latlng[1]}]
                         }
                     }
                     state.fetchedRegions = [...state["fetchedRegions"], countryName]

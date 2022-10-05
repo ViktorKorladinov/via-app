@@ -18,10 +18,12 @@ export function InfoPanel() {
         } else {
             let population = info[0]
             let subregion = info[1]
+            let {capital, lat, lng} = info[2]
             flag = region.flag
             element = (
                 <ul>
-                    <li>Population: {population}</li>
+                    <li>Capital: {capital} ({lat}, {lng})</li>
+                    <li>Population: {population.toLocaleString()}</li>
                     <li>Subregion: {subregion}</li>
                 </ul>
             )

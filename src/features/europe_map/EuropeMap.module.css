@@ -4,7 +4,7 @@
     stroke-linecap: round;
     stroke: #000000;
     fill: #ececec;
-    height: 100vh;
+    max-height: 100vh;
 }
 
 .country:hover {
