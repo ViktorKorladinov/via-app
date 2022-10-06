@@ -2,11 +2,5 @@
     stroke-width: 0.1;
     stroke-linejoin: round;
     stroke-linecap: round;
-    stroke: #000000;
-    fill: #ececec;
     max-height: 100vh;
-}
-
-.country:hover {
-    fill: red;
 }

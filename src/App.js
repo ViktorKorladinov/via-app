@@ -4,15 +4,15 @@ import {EuropeMap} from "./features/europe_map/EuropeMap";
 import {InfoPanel} from "./features/info_panel/InfoPanel";
 import {Col, Container, Row} from "react-bootstrap";
 import {useDispatch} from "react-redux";
-import {getTheme} from "./features/appSlice";
+import {getTheme} from "./appReducer";
 
 function App() {
     let dispatch = useDispatch()
     // const [colours, setColours] = useState({result: [[0, 0, 0]]});
     useEffect(() => {
         dispatch(getTheme())
-
     }, [dispatch]);
+
     return (
         <div className="App">
             <Container fluid style={{height: "100vh"}}>
