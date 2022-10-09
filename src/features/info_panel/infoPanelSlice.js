@@ -25,10 +25,6 @@ export const infoPanelSlice = createSlice({
         reset: (state) => {
             state.current = "default"
         },
-        setAllRegions: (state, action) => {
-            if (state.allRegions.length === 0)
-                state.allRegions = action.payload
-        }
     }, extraReducers: (builder) => {
         builder
             .addCase(fetchRegionInfo.pending, (state) => {

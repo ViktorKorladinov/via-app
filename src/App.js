@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import './App.css';
+import styles from './App.module.css';
 import {EuropeMap} from "./features/europe_map/EuropeMap";
 import {InfoPanel} from "./features/info_panel/InfoPanel";
 import {Col, Container, Row} from "react-bootstrap";
@@ -14,9 +14,9 @@ function App() {
     }, [dispatch]);
 
     return (
-        <div className="App">
-            <Container fluid style={{height: "100vh"}}>
-                <Row>
+        <div className={styles.App}>
+            <Container fluid className={styles.main_container}>
+                <Row className={styles.main_row}>
                     <Col md={8} sm={9}><EuropeMap/></Col>
                     <Col md={4} sm={3} className="my-auto"><InfoPanel/></Col>
                 </Row>
