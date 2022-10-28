@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
-export const fetchRegionInfo = createAsyncThunk('counter/fetchCount', async (countryName, thunkAPI) => {
+export const fetchRegionInfo = createAsyncThunk('regions/fetchOne', async (countryName, thunkAPI) => {
     if (thunkAPI.getState()["infoPanel"]["fetchedRegions"].includes(countryName)) {
         return {new: false, countryName}
     }

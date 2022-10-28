@@ -1,10 +1,13 @@
 import React, {useEffect} from 'react';
 import styles from './App.module.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {EuropeMap} from "./features/europe_map/EuropeMap";
 import {InfoPanel} from "./features/info_panel/InfoPanel";
 import {Col, Container, Row} from "react-bootstrap";
 import {useDispatch} from "react-redux";
 import {getTheme} from "./appReducer";
+import {GamePanel} from "./features/game_panel/GamePanel";
+
 
 function App() {
     let dispatch = useDispatch()
@@ -12,13 +15,15 @@ function App() {
     useEffect(() => {
         dispatch(getTheme())
     }, [dispatch]);
-
+    let game = true
     return (
         <div className={styles.App}>
             <Container fluid className={styles.main_container}>
                 <Row className={styles.main_row}>
-                    <Col md={8} sm={9}><EuropeMap/></Col>
-                    <Col md={4} sm={3} className="my-auto"><InfoPanel/></Col>
+                    <Col lg={8}><EuropeMap/></Col>
+                    <Col lg={4}>
+                        {game ? <GamePanel/> : <InfoPanel/>}
+                    </Col>
                 </Row>
             </Container>
         </div>
