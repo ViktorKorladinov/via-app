@@ -1,17 +1,11 @@
 .App {
-    text-align: center;
-    min-height: 100vh;
+    height: 100%;
     font-size: calc(10px + 1vmin);
     background-color: #333333;
     color: white
 }
 
-.main_container {
-    height: 100vh;
-}
-
 .main_row {
-    height: 100vh;
     align-content: center;
     justify-content: center;
 }

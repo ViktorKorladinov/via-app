@@ -186,12 +186,11 @@ export function EuropeMap() {
 
     });
 
-    return (<div>
+    return (
         <Map
             fillMap={fill} strokeMap={stroke}
             xmlns="http://www.w3.org/2000/svg" id="svg51"
             viewBox="0 0 820 660" version="1.2" baseProfile="tiny" className={styles.map}>
             {clickableCountries(hoverColour)}
-        </Map>
-    </div>)
+        </Map>)
 }
