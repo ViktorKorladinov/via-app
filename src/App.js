@@ -16,7 +16,7 @@ function App() {
     return (
         <div className={styles.App}>
             <BrowserRouter>
-                <Navbar variant="dark" style={{backgroundColor: "#333333", borderBottom: "1px solid wheat"}} expand="lg">
+                <Navbar variant="dark" style={{backgroundColor: "none", borderBottom: "1px dotted gray"}} expand="lg">
                     <Container fluid>
                         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                         <Navbar.Brand className={"mx-3"}>Countries</Navbar.Brand>

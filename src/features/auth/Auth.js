@@ -8,21 +8,22 @@ import {Col, Container, Row} from "react-bootstrap";
 export function Auth(props) {
 
 
-    return (<Container className={styles.authForm}>
+    return (<Container fluid className={styles.authForm}>
         <Row className={"justify-content-lg-center align-items-lg-center h-100"}>
-            <Col lg={5}>
+            <Col lg={3}>
                 <h2 className={"mb-3"}>Login</h2>
                 <Form>
                     <Form.Group className="mb-1" controlId="formBasicEmail">
                         <Form.Label>Username</Form.Label>
-                        <Form.Control type="text" placeholder="username"/>
+                        <Form.Control type="text"/>
                         <Form.Text className="text-muted">
                             {props.register ? "Enter desired username." : "The username you've registered with."}
                         </Form.Text>
                     </Form.Group>
                     {props.register ? <Form.Group className="mb-1" controlId="formBasicEmail">
+
                         <Form.Label>E-Mail</Form.Label>
-                        <Form.Control type="email" placeholder="user@mail.com"/>
+                        <Form.Control type="email"/>
                         <Form.Text className="text-muted">
                             Enter your e-mail.
                         </Form.Text>
@@ -30,7 +31,7 @@ export function Auth(props) {
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="password"/>
+                        <Form.Control type="password"/>
                         {props.register ? <Form.Text className="text-muted">
                             Password must be at least 6 characters long.
                         </Form.Text> : <></>}

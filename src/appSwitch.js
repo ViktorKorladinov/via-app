@@ -10,7 +10,7 @@ import {Auth} from "./features/auth/Auth";
 export function AppSwitch() {
     function panel(T) {
         return (<Container fluid className={styles.main_container}>
-            <Row className={styles.main_row}>
+            <Row>
                 <Col lg={8} className={"me-auto"} style={{maxHeight: "93vh"}}><EuropeMap/></Col>
                 <Col lg={4}>
                     <T/>
