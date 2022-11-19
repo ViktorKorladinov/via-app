@@ -2,6 +2,7 @@ import {configureStore} from '@reduxjs/toolkit';
 import europeMapReducer from '../features/europe_map/europeMapSlice'
 import infoPanelReducer from "../features/info_panel/infoPanelSlice";
 import gamePanelReducer from "../features/game_panel/gamePanelSlice";
+import authReducer from "../features/auth/authSlice";
 import appReducer from "../appReducer"
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
         europeMap: europeMapReducer,
         infoPanel: infoPanelReducer,
         gamePanel: gamePanelReducer,
+        auth: authReducer,
         app: appReducer,
     },
 });

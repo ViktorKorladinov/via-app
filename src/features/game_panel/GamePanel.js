@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
-// import {useDispatch} from "react-redux";
+import {useDispatch} from "react-redux";
+import { fetchRegions } from './gamePanelSlice'
 
 export function GamePanel() {
-    // let dispatch = useDispatch()
+    let dispatch = useDispatch()
 
     function getAllRegions() {
-        // dispatch()
+        dispatch(fetchRegions())
         console.log("Loading all regions..")
     }
 
