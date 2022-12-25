@@ -1,3 +1,6 @@
 .authForm {
     height: 93vh;
 }
+.authAlert{
+    font-size: medium;
+}

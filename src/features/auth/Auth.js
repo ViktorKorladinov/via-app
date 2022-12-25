@@ -1,24 +1,33 @@
 import React, { useEffect } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import Alert from 'react-bootstrap/Alert'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 import styles from './Auth.module.css'
-import { Col, Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { authenticate } from './authSlice'
-import { useNavigate } from "react-router-dom";
-
-
+import { authenticate, resetError } from './authSlice'
+import { useNavigate } from 'react-router-dom'
 
 export function Auth (props) {
     const dispatch = useDispatch()
-    let navigate = useNavigate();
+    let navigate = useNavigate()
     let auth = useSelector(state => state.auth.authenticated)
+    let error = useSelector(state => state.auth.error)
 
     useEffect(() => {
-        if (auth){
-            return navigate("/info");
+        if (auth) {
+            return navigate('/info')
         }
-    },[auth, navigate]);
+    }, [auth, navigate])
+
+    function renderError () {
+        if (error)
+            return (<Alert className={styles.authAlert} variant="danger">
+                ⚠ {error.message}
+            </Alert>)
+    }
 
     return (
         <Container fluid className={styles.authForm}>
@@ -26,7 +35,7 @@ export function Auth (props) {
                 className={'justify-content-center align-items-center h-100'}>
                 <Col xs={11} sm={10} md={6} lg={3}>
                     <h2 className={'mb-3'}>{props.register ? 'Register' : 'Login'}</h2>
-
+                    {renderError()}
                     <Form autoComplete={'off'} onSubmit={(event) => {
                         event.preventDefault()
                         let childCount = event.target['childElementCount'] - 1 // last element is the button
@@ -36,6 +45,7 @@ export function Auth (props) {
                             userInfo['credentials'] = { ...userInfo['credentials'], [id]: value }
                             userInfo['registration'] = props.register !== undefined
                         }
+                        dispatch(resetError())
                         dispatch(authenticate(userInfo))
                     }}>
 

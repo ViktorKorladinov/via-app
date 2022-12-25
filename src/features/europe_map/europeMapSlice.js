@@ -10,7 +10,7 @@ export const europeMapSlice = createSlice({
     initialState,
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
-        reset: (state) => {
+        resetSelectedRegion: (state) => {
             state.selectedRegion = initialState.selectedRegion;
         },
         load: (state) => {
@@ -23,7 +23,7 @@ export const europeMapSlice = createSlice({
     }, extraReducers: {}
 });
 
-export const {reset, changeRegion} = europeMapSlice.actions;
+export const {resetSelectedRegion, changeRegion} = europeMapSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

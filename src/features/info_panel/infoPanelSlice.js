@@ -22,7 +22,7 @@ const initialState = {
 
 export const infoPanelSlice = createSlice({
     name: 'infoPanel', initialState, reducers: {
-        reset: (state) => {
+        resetInfoPanel: (state) => {
             state.current = "default"
         },
     }, extraReducers: (builder) => {
@@ -53,7 +53,7 @@ export const infoPanelSlice = createSlice({
     },
 });
 
-export const {setAllRegions} = infoPanelSlice.actions;
+export const {resetInfoPanel} = infoPanelSlice.actions;
 
 export const selectInfo = (state) => state.infoPanel.regions;
 export const selectCurrentRegion = (state) => state.infoPanel.current;

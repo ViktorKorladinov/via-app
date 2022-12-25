@@ -6,50 +6,61 @@ export const authenticate = createAsyncThunk('auth/register', async (userInfo, t
         return { authenticated: true }
     }
     let type = registration ? 'register' : 'login'
-    return fetch(`http://localhost:8182/auth/${type}`, {
+    let response = await fetch(`http://localhost:8182/auth/${type}`, {
         method: 'POST', credentials: 'include', headers: {
             'Accept': 'application/json', 'Content-Type': 'application/json'
         }, body: JSON.stringify(credentials)
-    }).then(response => {
-        let bool = false
-        if (response.status === 200) {
-            bool = true
-            sessionStorage.setItem('status', 'loggedIn')
-        }
-        return { authenticated: bool }
     })
+    if (response.status === 200 || response.status === 201) {
+        sessionStorage.setItem('status', 'loggedIn')
+        return { authenticated: true }
+    } else {
+        return response.json().then(err => {return { authenticated: false, err }})
+    }
 })
 
-export const checkAuth = createAsyncThunk('auth/check', async (thunkAPI) => {
+export const checkAuth = createAsyncThunk('auth/check', async () => {
     let bool = false
     if (sessionStorage.getItem('status') === 'loggedIn') bool = true
     return { authenticated: bool }
 })
 
-export const logOut = createAsyncThunk('auth/logOut', async (thunkAPI) => {
+export const logOut = createAsyncThunk('auth/logOut', async () => {
     sessionStorage.setItem('status', 'loggedOut')
-    document.cookie = ""
+    document.cookie = ''
     return { authenticated: false }
 })
 
 const initialState = {
-    authenticated: false, ongoing: false
+    authenticated: false, ongoing: false, error: null
 }
 
 export const authSlice = createSlice({
-    name: 'auth', initialState, extraReducers: (builder) => {
+    name: 'auth', initialState,
+    reducers: {
+        resetError: (state) => {
+            state.error = null
+        }
+    },
+    extraReducers: (builder) => {
         builder
-            .addCase(authenticate.pending, (state, action) => {
+            .addCase(authenticate.pending, (state) => {
                 state.ongoing = true
             })
             .addCase(authenticate.fulfilled, (state, action) => {
                 state.ongoing = false
-                state.authenticated = action.payload.authenticated
+                if (action.payload.authenticated)
+                    state.authenticated = action.payload.authenticated
+                else {
+                    state.error = action.payload.err
+                }
             })
             .addCase(checkAuth.fulfilled, (state, action) => {
                 state.authenticated = action.payload.authenticated
             })
     },
 })
+
+export const { resetError } = authSlice.actions
 
 export default authSlice.reducer

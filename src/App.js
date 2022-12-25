@@ -7,6 +7,8 @@ import { BrowserRouter, Link } from 'react-router-dom'
 import { AppSwitch } from './appSwitch'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import { checkAuth, logOut } from './features/auth/authSlice'
+import { resetSelectedRegion } from './features/europe_map/europeMapSlice'
+import { resetInfoPanel } from './features/info_panel/infoPanelSlice'
 
 function App () {
     let dispatch = useDispatch()
@@ -20,6 +22,11 @@ function App () {
             .then(() => dispatch(checkAuth()))
     }
 
+    function reset () {
+        dispatch(resetSelectedRegion())
+        dispatch(resetInfoPanel())
+    }
+
     return (
         <div className={styles.App}>
             <BrowserRouter>
@@ -29,8 +36,8 @@ function App () {
                         <Navbar.Brand className={'mx-3'}>Countries</Navbar.Brand>
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="me-auto">
-                                <Nav.Link as={Link} to={'/info'}>Information</Nav.Link>
-                                <Nav.Link as={Link} to={'/game'}>Play</Nav.Link>
+                                <Nav.Link as={Link} onClick={reset} to={'/info'}>Information</Nav.Link>
+                                <Nav.Link as={Link} onClick={reset} to={'/game'}>Play</Nav.Link>
                             </Nav>
                             <Nav className="mx-3">
                                 {useSelector(state => state.auth.authenticated) ?
