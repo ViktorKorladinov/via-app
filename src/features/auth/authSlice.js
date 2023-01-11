@@ -21,13 +21,12 @@ export const authenticate = createAsyncThunk('auth/register', async (userInfo, t
 
 export const checkAuth = createAsyncThunk('auth/check', async () => {
     let bool = false
-    if (sessionStorage.getItem('status') === 'loggedIn') bool = true
+    if (document.cookie.split('jwt=')[1].length > 0) bool = true
     return { authenticated: bool }
 })
 
 export const logOut = createAsyncThunk('auth/logOut', async () => {
-    sessionStorage.setItem('status', 'loggedOut')
-    document.cookie = ''
+    document.cookie = 'jwt='
     return { authenticated: false }
 })
 

@@ -1,10 +1,16 @@
-import React from 'react'
-import leaderboard from '../../leaderboard_data/leaderboard'
+import React, { useEffect } from 'react'
 import Table from 'react-bootstrap/Table'
 import { Col, Container, Row } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchLeaderboard } from './leaderboardSlice'
 
 export function LeaderBoard () {
-    const { scores } = leaderboard
+    const scores = useSelector(state => state.leaderboard.scores)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(fetchLeaderboard())
+    }, [scores, dispatch])
+
     return (
         <div>
             <Container>

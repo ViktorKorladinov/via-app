@@ -11,6 +11,15 @@ export const fetchRegions = createAsyncThunk('regions/fetchAll', async (arr, thu
         })
 })
 
+export const uploadPoints = createAsyncThunk('regions/upload', async (_, thunkAPI) => {
+    let points = thunkAPI.getState()['gamePanel']['correctGuesses'] + 100
+    return fetch(`http://localhost:8182/api/leaderboard/add`, {
+        method: 'POST', credentials: 'include', headers: {
+            'Accept': 'application/json', 'Content-Type': 'application/json'
+        }, body: JSON.stringify({ score: points })
+    }).catch(err => console.log(err))
+})
+
 export const randomizeSelectedRegion = createAsyncThunk('regions/randomize', (_, thunkAPI) => {
     if (thunkAPI.getState()['gamePanel']['loaded']) {
         let countries = thunkAPI.getState()['gamePanel']['countries']
@@ -21,14 +30,17 @@ export const randomizeSelectedRegion = createAsyncThunk('regions/randomize', (_,
 
 const initialState = {
     countries: [], loaded: false,
-    current: 'France', correctGuesses: 0, incorrectGuesses: 0,
-    shouldRandomize: false
+    current: 'France',
+    correctGuesses: 0, incorrectGuesses: 0,
+    shouldRandomize: false,
+    status: 'unplayed'
 }
 
 export const gamePanelSlice = createSlice({
     name: 'gamePanel', initialState,
     reducers: {
         evaluateAnswer: (state, action) => {
+            if (state.status !== 'playing') return
             let selected = action.payload
             if (selected !== state.current) {
                 state.incorrectGuesses += 1
@@ -37,6 +49,14 @@ export const gamePanelSlice = createSlice({
                 state.shouldRandomize = true
             }
         },
+        prepareGame: (state) => {
+            state.correctGuesses = 0
+            state.incorrectGuesses = 0
+            state.status = 'playing'
+        },
+        finishGame: (state) => {
+            state.status = 'finished'
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -55,6 +75,6 @@ export const gamePanelSlice = createSlice({
     },
 })
 
-export const { evaluateAnswer } = gamePanelSlice.actions
+export const { evaluateAnswer, prepareGame, finishGame } = gamePanelSlice.actions
 
 export default gamePanelSlice.reducer
