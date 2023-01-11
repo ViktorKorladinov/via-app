@@ -7,6 +7,7 @@ import { EuropeMap } from './features/europe_map/EuropeMap'
 import { Auth } from './features/auth/Auth'
 import { fetchRegionInfo } from './features/info_panel/infoPanelSlice'
 import { evaluateAnswer } from './features/game_panel/gamePanelSlice'
+import { LeaderBoard } from './features/leader_board/LeaderBoard'
 
 export function AppSwitch () {
     function panel (T, action, game = false) {
@@ -27,5 +28,6 @@ export function AppSwitch () {
             <Route path="/game" element={panel(GamePanel, evaluateAnswer, true)}/>
             <Route path="/login" element={<Auth/>}/>
             <Route path="/register" element={<Auth register/>}/>
+            <Route path="/leaderboard" element={<LeaderBoard/>}/>
         </Routes>)
 }

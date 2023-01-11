@@ -38,6 +38,7 @@ function App () {
                             <Nav className="me-auto">
                                 <Nav.Link as={Link} onClick={reset} to={'/info'}>Information</Nav.Link>
                                 <Nav.Link as={Link} onClick={reset} to={'/game'}>Play</Nav.Link>
+                                <Nav.Link as={Link} onClick={reset} to={'/leaderboard'}>Leaderboard</Nav.Link>
                             </Nav>
                             <Nav className="mx-3">
                                 {useSelector(state => state.auth.authenticated) ?
