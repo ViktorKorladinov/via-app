@@ -6,7 +6,7 @@ export const authenticate = createAsyncThunk('auth/register', async (userInfo, t
         return { authenticated: true }
     }
     let type = registration ? 'register' : 'login'
-    let response = await fetch(`http://localhost:8182/auth/${type}`, {
+    let response = await fetch(`https://viktor.jware-virtual.com:8443/auth/${type}`, {
         method: 'POST', credentials: 'include', headers: {
             'Accept': 'application/json', 'Content-Type': 'application/json'
         }, body: JSON.stringify(credentials)

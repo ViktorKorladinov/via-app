@@ -8,7 +8,7 @@ export const fetchLeaderboard = createAsyncThunk('leaderboard/fetch', async (_, 
     if (thunkAPI.getState()['leaderboard']['scores'].length > 0) {
         return { message: 'scores loaded' }
     }
-    return fetch(`http://localhost:8182/api/leaderboard/top/10`, { credentials: 'include' })
+    return fetch(`https://viktor.jware-virtual.com:8443/api/leaderboard/top/10`, { credentials: 'include' })
         .then(response => response.json()).then(json => {
             return json
         }).catch(() => ({message: 'Server unavailable'}))

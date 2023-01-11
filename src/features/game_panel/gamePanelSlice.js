@@ -13,7 +13,7 @@ export const fetchRegions = createAsyncThunk('regions/fetchAll', async (arr, thu
 
 export const uploadPoints = createAsyncThunk('regions/upload', async (_, thunkAPI) => {
     let points = thunkAPI.getState()['gamePanel']['correctGuesses'] + 100
-    return fetch(`http://localhost:8182/api/leaderboard/add`, {
+    return fetch(`https://viktor.jware-virtual.com:8443/api/leaderboard/add`, {
         method: 'POST', credentials: 'include', headers: {
             'Accept': 'application/json', 'Content-Type': 'application/json'
         }, body: JSON.stringify({ score: points })
