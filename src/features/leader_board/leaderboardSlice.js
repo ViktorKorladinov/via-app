@@ -4,10 +4,7 @@ const initialState = {
     scores: []
 }
 
-export const fetchLeaderboard = createAsyncThunk('leaderboard/fetch', async (_, thunkAPI) => {
-    if (thunkAPI.getState()['leaderboard']['scores'].length > 0) {
-        return { message: 'scores loaded' }
-    }
+export const fetchLeaderboard = createAsyncThunk('leaderboard/fetch', async (_) => {
     return fetch(`https://viktor.jware-virtual.com:8443/api/leaderboard/top/10`, { credentials: 'include' })
         .then(response => response.json()).then(json => {
             return json

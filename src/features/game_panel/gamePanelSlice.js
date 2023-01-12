@@ -17,7 +17,7 @@ export const uploadPoints = createAsyncThunk('regions/upload', async (_, thunkAP
         method: 'POST', credentials: 'include', headers: {
             'Accept': 'application/json', 'Content-Type': 'application/json'
         }, body: JSON.stringify({ score: points })
-    }).catch(err => console.log(err))
+    }).then(response => response.json()).catch(err => console.log(err))
 })
 
 export const randomizeSelectedRegion = createAsyncThunk('regions/randomize', (_, thunkAPI) => {
@@ -33,7 +33,8 @@ const initialState = {
     current: 'France',
     correctGuesses: 0, incorrectGuesses: 0,
     shouldRandomize: false,
-    status: 'unplayed'
+    status: 'unplayed',
+    uploaded: false,
 }
 
 export const gamePanelSlice = createSlice({
@@ -53,6 +54,7 @@ export const gamePanelSlice = createSlice({
             state.correctGuesses = 0
             state.incorrectGuesses = 0
             state.status = 'playing'
+            state.uploaded = false
         },
         finishGame: (state) => {
             state.status = 'finished'
@@ -71,7 +73,9 @@ export const gamePanelSlice = createSlice({
                 const { selected } = action.payload
                 state.shouldRandomize = false
                 state.current = selected['name']['common']
-            })
+            }).addCase(uploadPoints.fulfilled, (state) => {
+            state.uploaded = true
+        })
     },
 })
 

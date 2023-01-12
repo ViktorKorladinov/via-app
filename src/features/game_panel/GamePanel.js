@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { finishGame, prepareGame, randomizeSelectedRegion, uploadPoints } from './gamePanelSlice'
 import Button from 'react-bootstrap/Button'
+import { useNavigate } from 'react-router-dom'
+import { ProgressBar } from 'react-bootstrap'
 
 export function GamePanel () {
-    let correctGuesses = useSelector(state => state.gamePanel.correctGuesses)
-    let incorrectGuesses = useSelector(state => state.gamePanel.incorrectGuesses)
-    let current = useSelector(state => state.gamePanel.current)
-    let shouldRandomize = useSelector(state => state.gamePanel.shouldRandomize)
-    let status = useSelector(state => state.gamePanel.status)
-    let dispatch = useDispatch()
+    const correctGuesses = useSelector(state => state.gamePanel.correctGuesses)
+    const incorrectGuesses = useSelector(state => state.gamePanel.incorrectGuesses)
+    const current = useSelector(state => state.gamePanel.current)
+    const shouldRandomize = useSelector(state => state.gamePanel.shouldRandomize)
+    const status = useSelector(state => state.gamePanel.status)
+    const [timeLeft, setTimeLeft] = useState(100)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (shouldRandomize)
@@ -17,15 +21,23 @@ export function GamePanel () {
     }, [dispatch, shouldRandomize])
 
     useEffect(() => {
-        if (status === 'playing')
+        if (status === 'playing' && timeLeft === 100) {
+            let a = setInterval(() => {
+                setTimeLeft(timeLeft=>timeLeft - 100 / 150)
+            }, 100)
             setTimeout(() => {
                 dispatch(finishGame())
+                console.log(a)
+                clearInterval(a)
+                setTimeLeft(100)
             }, 15000)
-    }, [dispatch, status])
+        }
+    }, [timeLeft, dispatch, status])
 
     function showRegion () {
         return (
             <div className="mb-5">
+                <ProgressBar className="w-50" variant="warning" now={timeLeft}/>
                 <h1>Find {current}.</h1>
                 <p>Guesses: {correctGuesses + incorrectGuesses}</p>
                 <p>Correct guesses: {correctGuesses}</p>
@@ -35,6 +47,7 @@ export function GamePanel () {
 
     function uploadScore () {
         dispatch(uploadPoints())
+        navigate('/leaderboard')
     }
 
     function renderGame () {
@@ -48,7 +61,7 @@ export function GamePanel () {
             el = showRegion()
         } else if (status === 'unplayed') {
             el = (
-                <div >
+                <div>
                     <h1>Press start to begin</h1>
                     <Button variant="outline-warning" className="w-50" onClick={startGame}>Start</Button>
                 </div>)
@@ -57,8 +70,11 @@ export function GamePanel () {
                 <div className="mb-5">
                     <h1>Good job!</h1>
                     <p>Correct guesses: {correctGuesses}</p>
-                    <p>Accuracy: {Math.round(100* correctGuesses / (correctGuesses + incorrectGuesses))}%</p>
-                    <Button variant="outline-warning" onClick={uploadScore}>Send</Button>
+                    {correctGuesses + incorrectGuesses > 0 ?
+                        <p>Accuracy: {Math.round(100 * correctGuesses / (correctGuesses + incorrectGuesses))}%</p> :
+                        <p>0 guesses made, can't calculate accuracy!</p>}
+                    <Button className="me-3" variant="outline-warning" onClick={uploadScore}>Send</Button>
+                    <Button variant="outline-warning" onClick={startGame}>Restart</Button>
                 </div>
             )
         }
